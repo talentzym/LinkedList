@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单向链表</title>
+</head>
+<body>
+  <script>
+    // 封装链表类
+    /**
+         - append(elm): 想链表尾部添加一个新的项
+         - insert(position, elm): 向链表的特定位置插入一个新的项
+         - get(position): 获取对应位置的元素
+         - indexOf(elm): 返回元素在链表中的索引, 如果列表中没有该元素则返回-1
+         - update(position, elm): 修改某个位置的元素
+         - removeAt(position): 从链表的特定位置移除一项
+         - remove(elm): 从链表中删除一项
+         - isEmpty(): 如果链表为空, 返回true, 否则返回false
+         - size(): 返回链表包含的元素个数
+         - toString(): 让其只输出元素的值
+    */
+    class LinkedList{
+      constructor(){
+        this.head = null
+        this.length = 0
+      }
+      append(data){
+        // 创建新节点
+        let newNode = new Node(data)
+        // 判断是否添加的是第一个节点
+        if (this.length === 0) { // 是第一个节点
+          this.head = newNode
+        } else { // 不是第一个
+          let current = this.head
+          while(current.next){
+            current = current.next
+          }
+          // 最后节点的next指向新的节点
+          current.next = newNode
+        }
+        // 长度加1
+        this.length += 1
+      }
+      // insert方法
+      insert(position, data){
+        // 对position进行越界判断
+        if (position < 0 || position > this.length) return false
+
+        // 根据elm 创建newNode
+        let newNode = new Node(data)
+
+        // 判断插入的位置是否是第一个
+        if ( position === 0 ){
+          newNode.next = this.head
+          this.head = newNode
+        } else {
+          let index = 0
+          let current = this.head
+          let previous = null
+          while (index++ < position) {
+            previous = current
+            current = current.next
+          }
+          newNode.next = current
+          previous.next = newNode
+        }
+
+        // length+1
+        this.length += 1
+        return true
+      }
+      // get(position): 获取对应位置的元素
+      get (position) {
+        // 越界判断
+        if (position < 0 || position >= this.length) return null
+        // 获取对应的data
+        let index = 0
+        let current = this.head
+        while (index++ < position) {
+          current = current.next
+        }
+        return current.data
+      }
+      // indexOf(elm): 返回元素在链表中的索引, 如果列表中没有该元素则返回-1
+      indexOf (data) {
+        let index = 0
+        let current = this.head
+        // 开始查找
+        while (current) {
+          // console.log(index);
+          if (current.data === data) {
+            return index
+          }
+          current = current.next
+          index += 1
+        }
+        return -1
+        
+      }
+      // update(position): 修改某个位置的元素
+      update(position, newdata){
+        // 边界处理
+        if (position < 0 || position >= this.length) return false
+        // 查找正确的节点
+        let index = 0
+        let current = this.head
+        while(index++ < position) {
+          current = current.next
+        }
+        current.data = newdata
+        return true
+      }
+      // removeAt(position): 从链表的特定位置移除一项
+      removeAt(position){
+        // 边界处理
+        if (position < 0 || position >= this.length) return null
+        // 找到删除位置
+        let current = this.head
+        if (position === 0) {
+          this.head = this.head.next
+        } else {
+          let index = 0
+          let previous = null
+          
+          while (index++ < position) {
+            previous = current
+            current = current.next
+          }
+          previous.next = current.next
+        }
+        // length - 1
+        length -= 1
+        return current.data
+        
+      }
+      // remove(elm): 从链表中删除一项
+      remove(data) {
+        // 获取data在列表中的位置
+        let position = this.indexOf(data)
+        // 根据位置信息,删除节点
+        return this.removeAt(position)
+      }
+      isEmpty () {
+        return this.length === 0
+      }
+      size(){
+        return this.length
+      }
+      toString () {
+        // 定义变量
+        let current = this.head
+        let listString = ''
+
+        // 循环获取 一个个的节点
+        while(current){
+          listString += current.data + (current.next ? ' -> ': '')
+          current = current.next
+        }
+        return listString
+      }
+    }
+    // 节点类
+    class Node{
+      constructor(data, next = null){
+        this.data = data
+        this.next = next
+      }
+    }
+
+    let ll = new LinkedList()
+    ll.append('qwe')
+    ll.append('asd')
+    ll.append('zcx')
+    console.log(ll.toString());
+
+    ll.insert(0, 'wer');
+    ll.insert(2, 'nnn');
+    ll.insert(5, 'ooo');
+    console.log(ll.toString());
+    
+    console.log(ll.get(2));
+    
+    console.log(ll.indexOf('wer'))
+
+    ll.update(0, 'ert')
+    ll.update(1, 'aaa')
+    console.log(ll.toString());
+
+    ll.removeAt(0)
+    ll.removeAt(1)
+    console.log(ll.toString());
+
+    ll.remove('ooo')
+    console.log(ll.toString());
+    
+  </script>
+</body>
+</html>
