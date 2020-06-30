@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  function dec2bin(decNumber){
+      let result = [];
+      while (decNumber > 0) {
+        result.push(decNumber % 2)
+        decNumber = Math.floor(decNumber/2)
+      }
+
+      let string = ''
+      while(result.length > 0) {
+        string += result.pop()
+      }
+      return string
+    }
+    console.log(dec2bin(100));
+    
+    
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>优先级队列</title>
+</head>
+<body>
+  <script>
+    class PriorityQueue{
+      constructor(){
+        this.items = []
+        
+      }
+      enqueue(element, priority){
+        // 创建QueueElement对象
+        let queueElement = new QueueElement(element, priority)
+        // 判断队列是否为空
+        if (this.isEmpty()){
+          this.items.push(queueElement)
+        } else {
+          let added = false
+          for (let i = 0; i < this.items.length; i++){
+            if (queueElement.priority < this.items[i].priority){
+              this.items.splice(i, 0, queueElement)
+              added = true
+              break
+            }
+          }
+          if (!added) {
+            this.items.push(queueElement)
+          }
+        }
+        
+      }
+      isEmpty(){
+        return this.items.length < 1
+      }
+      dequeue(){
+        return this.items.shift()
+      }
+      front(){
+        return this.items[0]
+      }
+      size(){
+        return this.items.length
+      }
+      toString(){
+        let result = ''
+        for(let i=0; i<this.items.length; i++){
+           result += this.items[i].element + '-' + this.items[i].priority + ' '
+        }
+        return result
+      }
+    }
+    class QueueElement{
+      constructor(element, priority){
+        this.element = element
+        this.priority = priority
+      }
+    }
+
+    // 测试代码
+    let pq = new PriorityQueue()
+    pq.enqueue('lili', 10)
+    pq.enqueue('lilei', 5)
+    pq.enqueue('shali', 100)
+    pq.enqueue('tina', 80)
+    console.log(pq);
+
+    console.log(pq.dequeue());
+
+    console.log(pq.front());
+
+    console.log(pq.size());
+
+    console.log(pq.toString());
+    
+    
+  </script>
+</body>
+</html>

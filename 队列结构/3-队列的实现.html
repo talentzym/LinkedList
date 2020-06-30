@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /***
+      实现队列, 基于数组实现, 链表还没学
+      - enqueue(elm): 后端添加(或多个)新元素
+      - dequeue(): 前端删除, 并返回被移除的元素
+      - front(): 返回队列中第一个元素, 不改变队列
+      - isEmpty(): 如果队列中不包含任何元素, 返回true, 否则返回false
+      - size(): 返回队列包换的元素个数, 与数组的length属性类型
+      - toString: 将队列中的内容, 转成字符串形式
+    
+    */
+    class Queue{
+      constructor(){
+        this.items = []
+      }
+      // 方法
+      enqueue(elm){
+        this.items.push(elm)
+      }
+      dequeue(){
+        return this.items.shift()
+      }
+      front(){
+        return this.items[0]
+      }
+      isEmpty(){
+        return this.items.length < 1
+      }
+      size(){
+        return this.items.length
+      }
+      toString(){
+        let result = ''
+        this.items.forEach(item=>{
+          result += item + ' '
+        })
+        return result
+      }
+    }
+
+    // 使用队列 
+    // let queue = new Queue()
+
+    // queue.enqueue('阿萨德')
+    // queue.enqueue('qwe')
+    // queue.enqueue('qweqwe')
+    // queue.enqueue('qweqwezxv')
+    // alert(queue);
+
+    // alert(queue.dequeue());
+
+    // alert(queue.front());
+
+    // alert(queue.isEmpty());
+
+    // alert(queue.size());
+
+    // console.log(queue.toString());
+
+    // 面试题: 击鼓传花
+    function passGame(nameList, num){
+      // 创建一个队列结构
+      let list = new Queue()
+      // 把所有人依次加入队列中
+      nameList.forEach(name=>{
+        list.enqueue(name)
+      })
+      // 开始数数, 不是num的时候, 重新加入队列的末尾, 是num的时候, 将其从队列中删除
+      // num数字之前的人重新放入队列的末尾
+      while(list.size() > 1) {
+        for(let i = 0; i < num-1; i++){
+          list.enqueue(list.dequeue())
+        }
+        // num对应这个人,直接队列中删除
+        list.dequeue()
+      }
+      // 获取剩下的人
+      alert(list.front())
+      let endName = list.front()
+      return nameList.indexOf(endName)
+    }
+
+    console.log(passGame(['小胡', '小明', '小米', '小李'], 3));
+
+  </script>
+</body>
+</html>
